@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>product</title> 
+</head> 
+<body> 
+     
+    {% block content %} 
+    <h2>{{ product.name }}</h2> 
+    <p>Price: {{ product.price }}</p> 
+    <p>{{ product.description }}</p> 
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="200"> 
+    <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a> 
+    {% endblock %} 
+ 
+ 
+</body> 
+</html>
