@@ -1,29 +1,28 @@
-{% extends 'base.html' %} 
- 
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>check out</title> 
-</head> 
-<body> 
-     
-    {% block content %} 
-    <h2>Shopping Cart</h2> 
-    <ul> 
-        {% for item in order_items %} 
-            <li> 
-                <strong>{{ item.product.name }}</strong> - {{ item.quantity }} 
-            </li> 
-        {% empty %} 
-            <li>Cart is empty.</li> 
-        {% endfor %} 
-    </ul> 
-    <p>Total Price: {{ order.total_price }}</p> 
-    <a href="{% url 'checkout' %}">Checkout</a> 
-{% endblock %} 
- 
- 
-</body> 
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>My Bookings</h2>
+    <ul class="list-group">
+      {% for booking in bookings %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Service:</strong> {{ booking.product.category }}<br>
+            <strong>Provider:</strong> {{ booking.service_provider.username }}<br>
+            <strong>Date:</strong> {{ booking.date }}<br>
+            <strong>Time:</strong> {{ booking.time }}
+          </div>
+          <span>
+            <a href="{% url 'update_booking' booking.pk %}" class="btn btn-sm btn-warning">Update</a>
+            <form action="{% url 'delete_booking' booking.pk %}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </span>
+        </li>
+      {% empty %}
+        <li class="list-group-item">No bookings found.</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
